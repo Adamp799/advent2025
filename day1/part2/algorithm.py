@@ -1,5 +1,5 @@
 from pathlib import Path
-DATA_PATH = Path(__file__).parent / "test.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -18,7 +18,7 @@ def zerocount(input_data=None):
         rem = num % 100
         zeros += num // 100
 
-        if (direction == 1 and rem >= (100 - count)) or (direction == -1 and rem >= count):
+        if count and ((direction == 1 and rem >= (100 - count)) or (direction == -1 and rem >= count)):
             zeros += 1
         count += direction * num
         count = count % 100
