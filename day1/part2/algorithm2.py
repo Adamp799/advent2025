@@ -16,7 +16,7 @@ def zerocount(input_data=None):
         direction = 1 if row[0] == 'R' else -1
         num = int(row[1:])
         count += direction * num
-        rem = count % 100
+        rem = num % 100
         if (direction == 1 and rem >= (100 - count)) or (direction == -1 and rem >= count):
             zeros += 1
         zeros += num // 100
