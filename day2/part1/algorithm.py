@@ -13,11 +13,12 @@ def id_check(input_data=None):
     if input_data is None: return 0
     invalid_sum = 0
     for id_range in input_data:
-        max_id = int(id_range.split("-")[1])
         min_id = int(id_range.split("-")[0])
+        max_id = int(id_range.split("-")[1])
         for id_num in range(min_id, max_id + 1):
             s = str(id_num)
-            if bool(s) and s in (s + s)[1:-1]:
+            if len(s) % 2: continue
+            if s[:int(len(s)/2)] == s[int(len(s)/2):]:
                 invalid_sum += id_num
     return invalid_sum
 
