@@ -12,11 +12,11 @@ def joltage(input_data=None):
     if input_data is None: return 0
     joltage_total = 0
     for row in input_data:
-        batteries = list(map(int, row))[:-1]
+        batteries = list(map(int, row))
         print("Batteries:", batteries)
-        battery_one = max(batteries)
+        battery_one = max(batteries[:-1])
         max_index = batteries.index(battery_one) 
-        battery_two = max(batteries[max_index:])
+        battery_two = max(batteries[max_index + 1:])
         joltage_total += battery_one * 10 + battery_two
     return joltage_total
 
