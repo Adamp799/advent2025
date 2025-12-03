@@ -8,26 +8,23 @@ def read_input(path=DATA_PATH):
     except FileNotFoundError:
         return []
 
-def joltage(input_data=None):
-    if input_data is None: return 0
-    joltage_total = 0
-    for row in input_data: 
-        batteries = list(map(int, row)) 
-        joltage = recursive_battery_search(batteries)
-        joltage_total += joltage
-    return joltage_total
+def max_joltage(line, digits_left):
+    if digits_left == 1:
+        return max([int(i) for i in line])
+    digit_list = [int(i) for i in line]
+    digit = max(digit_list[: -1 * (digits_left - 1)])
+    idx = digit_list.index(digit)
+    line = line[idx + 1:]
+    return digit * (10**(digits_left - 1)) + max_joltage(line, digits_left - 1)
 
-def recursive_battery_search(batteries=None, depth=0):
-    if batteries is None or len(batteries) == 0: return 0
-    if depth >= 12: return 0
-    joltage_options = []
-    for i in range(len(batteries)):
-        joltage_options.append(batteries[i] * 10 ** (11 - depth) + recursive_battery_search(batteries[i+1:], depth + 1))
-    cleaned_joltage_options = [int(str(joltage).replace("0", "")) for joltage in joltage_options]
-    return max(cleaned_joltage_options) if cleaned_joltage_options else 0
+def max_joltage_sum(digits):
+    count = 0
+    for line in digits:
+        count += max_joltage(line, 12)
+    return count
 
 if __name__ == "__main__":
     input_data = read_input()
-    print(f"Read {len(input_data)} lines from data")
+    print(f"Read {len(input_data)} lines from data.txt")
     print("First 5:", input_data[:5])
-    print("Total Joltage:", joltage(input_data))
+    print("Max Joltage:", max_joltage_sum(input_data))
