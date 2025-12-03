@@ -22,6 +22,6 @@ def zerocount(input_data=None):
 
 if __name__ == "__main__":
     input_data = read_input()
-    print(f"Read {len(input_data)} lines from data.txt")
+    print(f"Read {len(input_data)} lines from data")
     print("First 5:", input_data[:5])
     print("Zerocount:", zerocount(input_data))
