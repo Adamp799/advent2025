@@ -1,5 +1,5 @@
 from pathlib import Path
-DATA_PATH = Path(__file__).parent / "example.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -13,7 +13,6 @@ def joltage(input_data=None):
     joltage_total = 0
     for row in input_data:
         batteries = list(map(int, row))
-        print("Batteries:", batteries)
         battery_one = max(batteries[:-1])
         max_index = batteries.index(battery_one) 
         battery_two = max(batteries[max_index + 1:])
