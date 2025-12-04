@@ -1,5 +1,5 @@
 from pathlib import Path
-DATA_PATH = Path(__file__).parent / "example.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -25,20 +25,18 @@ def count_rolls(input_data=None):
                 safe_list_increment(count_arr, curr_row - 1, curr_col)
                 safe_list_increment(count_arr, curr_row - 1, curr_col + 1)
                 safe_list_increment(count_arr, curr_row - 1, curr_col - 1)
+            else: count_arr[curr_row][curr_col] += 100
             curr_col += 1
         curr_col = 0
         curr_row += 1
-    print(count_arr)
     return sum(1 for row in count_arr for count in row if count < 4)
 
 def safe_list_increment(count_arr, i1, i2):
-    if i1 is None or i2 is None:
-        return
+    if i1 is None or i2 is None: return
     if 0 <= i1 < len(count_arr) and 0 <= i2 < len(count_arr[i1]):
         count_arr[i1][i2] += 1
 
 if __name__ == "__main__":
     input_data = read_input()
     print(f"Read {len(input_data)} lines from data")
-    print("First 5:", input_data[:5])
     print("Accessible Rolls:", count_rolls(input_data))
