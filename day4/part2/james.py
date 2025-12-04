@@ -9,22 +9,24 @@ def read_input(path=DATA_PATH):
     except FileNotFoundError:
         return []
 
-pass_array = np.zeros((10, 10), dtype=int)
+pass_array = np.zeros((136, 136), dtype=int)
+input_data = read_input()
 
 for i, row in enumerate(input_data):
     for j, char in enumerate(row):
-        pass_array[i, j] = 1
+        if char == '@':
+            pass_array[i, j] = 1
 
 
 def toilet_checker(grid):
     # make it all one line
-    w = 10
-    h = 10
+    w = 136
+    h = 136
     length = len(grid)
     count_array = np.zeros((h + 2, w + 2), dtype=int)
-    for i, row in enumerate(grid):
+    for i, row in enumerate(pass_array):
         for j, char in enumerate(row):
-            if char == '@':
+            if char:
                 count_array[i, j] += 1
                 count_array[i, j + 1] += 1
                 count_array[i, j + 2] += 1
@@ -33,17 +35,16 @@ def toilet_checker(grid):
                 count_array[i + 2, j] += 1
                 count_array[i + 2, j + 1] += 1
                 count_array[i + 2, j + 2] += 1
-    
     total_count = 0
     
-    for i, x, y in enumerate(zip(grid, count_array[1: -1])):
-        for c, d in zip(x, y[1: -1]):
-            if c == '@' and d < 4:
+    for i, (x, y) in enumerate(zip(pass_array, count_array[1: -1])):
+        for j, (c, d) in enumerate(zip(x, y[1: -1])):
+            if c  and d < 4:
                 total_count += 1
-    
+                pass_array[i, j] = 0
     if not total_count:
         return 0
-    
+
     return total_count + toilet_checker(pass_array)
 
 if __name__ == "__main__":
