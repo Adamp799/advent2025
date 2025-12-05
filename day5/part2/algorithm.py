@@ -1,5 +1,5 @@
 from pathlib import Path
-DATA_PATH = Path(__file__).parent / "example.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -11,14 +11,30 @@ def read_input(path=DATA_PATH):
     except FileNotFoundError:
         return []
 
-def total_fresh(ranges):
-    fresh_set = set()
-    for i in ranges:
-        x = i.split('-')
-        fresh_set = fresh_set.union(set(range(int(x[0]), int(x[1]) + 1)))
-    return len(fresh_set)
+def total_fresh(merged_ranges):
+    count = 0
+    for i in merged_ranges: 
+        count += (i[1] - i[0] + 1)
+    return count
+
+def merge_ranges(ranges):
+    parsed = []
+    for r in ranges:
+        parts = r.strip().split("-")
+        start, end = int(parts[0]), int(parts[1])
+        parsed.append([start, end])
+
+    parsed.sort(key=lambda x: x[0])
+    merged = []
+    for start, end in parsed:
+        if not merged or start > merged[-1][1]:
+            merged.append([start, end])
+        else:
+            merged[-1][1] = max(merged[-1][1], end)
+    return [tuple(r) for r in merged]
 
 if __name__ == "__main__":
     input_data = read_input()
     print(f"Read {input_data[0][:5]} from data")
-    print("Possible Fresh Ingredients:", total_fresh(input_data[0]))
+    merged_ranges = merge_ranges(input_data[0])
+    print("Possible Fresh Ingredients:", total_fresh(merged_ranges))
