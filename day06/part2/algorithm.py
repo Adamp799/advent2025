@@ -1,5 +1,5 @@
 from pathlib import Path
-DATA_PATH = Path(__file__).parent / "example.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -8,9 +8,10 @@ def read_input(path=DATA_PATH):
     except FileNotFoundError:
         return []
 
-def perform_calculations(input_data):
+def construct_nums(input_data):
     total = 0 
     curr_operation = " "
+    num_strings = []
     for i in range(len(input_data[-1])): 
         if input_data[-1][i] == "+":
             curr_operation = "+"
@@ -20,20 +21,29 @@ def perform_calculations(input_data):
         num_string = ""
         for j in range(len(input_data) - 1):
             num_string += input_data[j][i]
+        if num_string.strip() != "":
+            num_strings.append(num_string.strip() + curr_operation)
+    return num_strings
 
-        #if curr_operation == "+":
-            #for j in range(len(input_data) - 1):
-              #  total += int(input_data[j][i])
-        #elif curr_operation == "*": 
-           # subtotal = 1
-            ##for j in range(len(input_data) - 1):
-                #subtotal *= int(input_data[j][i])
-           # total += subtotal
-    return total
+def perform_calculations(num_strings):
+    grand_total = 0
+    subtotal = 1
+    multiplier = False
+    for num_str in num_strings:
+        if num_str[-1] == "+":
+            if multiplier: grand_total += subtotal
+            subtotal = 1
+            multiplier = False
+            grand_total += int(num_str[:-1])
+        else: 
+            multiplier = True
+            subtotal *= int(num_str[:-1])
+    return grand_total
 
 if __name__ == "__main__":
     input_data = read_input()
     print(f"Read {len(input_data)} lines from data")
-    print(len(input_data[-1]), len(input_data[0]))
-    print(input_data)
-    print("Grand Total:", perform_calculations(input_data))
+    constructed_nums = construct_nums(input_data)
+    print("Constructed Numbers:", constructed_nums)
+    print("Constructed Numbers Length:", len(constructed_nums))
+    print("Grand Total:", perform_calculations(constructed_nums))
