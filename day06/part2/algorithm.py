@@ -17,6 +17,7 @@ def construct_nums(input_data):
             curr_operation = "+"
         elif input_data[-1][i] == "*":
             curr_operation = "*"
+        else: curr_operation = " "
 
         num_string = ""
         for j in range(len(input_data) - 1):
@@ -28,15 +29,25 @@ def construct_nums(input_data):
 def perform_calculations(num_strings):
     grand_total = 0
     subtotal = 1
-    multiplier = False
+    add_subtotal = False
+    curr_operation = " "
     for num_str in num_strings:
-        if num_str[-1] == "+":
-            if multiplier: grand_total += subtotal
+        if num_str[-1] == " ":
+            if curr_operation == "+":
+                grand_total += int(num_str[:-1])
+            elif curr_operation == "*":
+                subtotal *= int(num_str[:-1])
+            continue
+        if add_subtotal: 
+            add_subtotal = False 
+            grand_total += subtotal
             subtotal = 1
-            multiplier = False
+        if num_str[-1] == "+":
+            curr_operation = "+"
             grand_total += int(num_str[:-1])
-        else: 
-            multiplier = True
+        elif num_str[-1] == "*":
+            add_subtotal = True
+            curr_operation = "*"
             subtotal *= int(num_str[:-1])
     return grand_total
 
@@ -44,6 +55,5 @@ if __name__ == "__main__":
     input_data = read_input()
     print(f"Read {len(input_data)} lines from data")
     constructed_nums = construct_nums(input_data)
-    print("Constructed Numbers:", constructed_nums)
     print("Constructed Numbers Length:", len(constructed_nums))
     print("Grand Total:", perform_calculations(constructed_nums))
