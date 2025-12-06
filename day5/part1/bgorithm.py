@@ -1,10 +1,3 @@
-# sort the lower bounds so that they are in ascending order [1, 5, 13, ...]
-# sort the upper bounds so that they are in descending order [123, 99, 98, ...]
-# loop through the lower bounds and find the first the number is above
-# loop throught the upper bounds and find the first the number is below
-# if the indexes add to the length, this is fresh
-# return total fresh
-
 from pathlib import Path
 DATA_PATH = Path(__file__).parent / "data2.txt"
 
