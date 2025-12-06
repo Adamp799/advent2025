@@ -1,5 +1,5 @@
 from pathlib import Path
-DATA_PATH = Path(__file__).parent / "example.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -14,10 +14,10 @@ def perform_calculations(input_data):
     for i in range(len(input_data[0])): 
         if input_data[3][i] == "+":
             total += int(input_data[0][i]) + int(input_data[1][i]) + int(input_data[2][i])
-        else: total += int(input_data[0][i]) * int(input_data[1][i]) * int(input_data[2][1])
+        else: total += int(input_data[0][i]) * int(input_data[1][i]) * int(input_data[2][i])
     return total
 
 if __name__ == "__main__":
     input_data = read_input()
-    print(f"Read {input_data} from data")
+    print(f"Read {len(input_data[0])} calculations from data")
     print("Grand Total:", perform_calculations(input_data))
