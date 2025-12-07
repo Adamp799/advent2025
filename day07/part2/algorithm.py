@@ -11,18 +11,22 @@ def read_input(path=DATA_PATH):
 def tachyon_beam(input_data):
     beam_locations = set()
     beam_locations.add(input_data[0].index('S'))
-    timelines_triangle = {input_data[0].index('S') : 1}
+    timelines_triangle = {next(iter(beam_locations)) : 1}
+    temp_triangle = {}
     for line in input_data[1:]:
         splitters = {i for i, char in enumerate(line) if char == '^'}
         intersections = beam_locations.intersection(splitters)
         beam_locations.update({y for x in intersections for y in (x - 1, x + 1) if 0 <= y <= len(line) - 1})
         beam_locations.difference_update(intersections)
-        print(intersections)
-        for i in intersections: 
-            temp = timelines_triangle 
+        #print(intersections)
+        print(timelines_triangle)
+        if len(intersections) > 0: 
+            temp_triangle = {} | timelines_triangle
             timelines_triangle.clear()
-            timelines_triangle[i - 1] = temp.get(i - 2, 0) + temp[i]
-            timelines_triangle[i + 1] = temp.get(i + 2, 0) + temp[i]
+        for i in intersections: 
+            #print(temp_triangle)
+            timelines_triangle[i - 1] = temp_triangle.get(i - 2, 0) + temp_triangle[i]
+            timelines_triangle[i + 1] = temp_triangle.get(i + 2, 0) + temp_triangle[i]
     return sum(timelines_triangle.values())
 
 if __name__ == "__main__":
