@@ -18,11 +18,10 @@ def tachyon_beam(input_data):
         intersections = beam_locations.intersection(splitters)
         beam_locations.update({y for x in intersections for y in (x - 1, x + 1) if 0 <= y <= len(line) - 1})
         beam_locations.difference_update(intersections)
-        for i in timelines_triangle.keys():
-            if i in intersections:
-                timelines_triangle[i - 1] += timelines_triangle[i]
-                timelines_triangle[i + 1] += timelines_triangle[i]
-                timelines_triangle[i] = 0
+        for i in intersections:
+            timelines_triangle[i - 1] += timelines_triangle[i]
+            timelines_triangle[i + 1] += timelines_triangle[i]
+            timelines_triangle[i] = 0
     return sum(timelines_triangle.values())
 
 if __name__ == "__main__":
