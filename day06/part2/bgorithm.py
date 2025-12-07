@@ -38,7 +38,6 @@ def sum_of_problems(problems):
             total += build
         elif full:
             prod *= build
-        print(total)
     
     print(total)
 
