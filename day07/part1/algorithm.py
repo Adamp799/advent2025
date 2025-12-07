@@ -1,5 +1,5 @@
 from pathlib import Path
-DATA_PATH = Path(__file__).parent / "example.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -17,6 +17,7 @@ def tachyon_beam(input_data):
         intersections = beam_locations.intersection(splitters)
         total_splits += len(intersections)
         beam_locations.update({y for x in intersections for y in (x - 1, x + 1) if 0 <= y <= len(line) - 1})
+        beam_locations.difference_update(intersections)
     return total_splits
 
 if __name__ == "__main__":
