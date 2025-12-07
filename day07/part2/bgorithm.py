@@ -1,4 +1,5 @@
 from pathlib import Path
+import numpy as np
 DATA_PATH = Path(__file__).parent / "data2.txt"
 
 def read_input(path=DATA_PATH):
@@ -9,25 +10,24 @@ def read_input(path=DATA_PATH):
         return []
 
 def tachyon_beam(input_data):
-    total_splits = 0
-    beam_locations = {}
-    beam_locations[input_data[0].index('S')] = 1
-    # we need a dict for the beam locations with index: count
-
-    for line in input_data[1:]:
-        splitters = {i for i, char in enumerate(line) if char == '^'}
-
-        #c = set(beam_locations.keys()) # set of keys from beams
-        #d = set(splitters.keys()) # set of keys from splitters
-
-        #e = c.intersection(d) #  intersection of the two sets
-        #res = {k: beam_locations[k] for k in e}
-        intersections = beam_locations.keys().intersection(splitters)
-        total_splits += len(intersections)
-        beam_locations.update({x - 1 for x in intersections : beam_locations[x]})
-        # for y in (x - 1, x + 1) if 0 <= y <= len(line) - 1 : beam_locations[x - 1]}
-        beam_locations.difference_update(intersections)
-    return total_splits
+    # make it all one line
+    w = len(input_data[0]) + 2
+    h = len(input_data) + 2
+    beam_location = input_data[0].index('S')
+    count_array = np.zeros((h + 2, w + 2), dtype=int)
+    count_array[0, beam_location] = 1
+    for i, row in enumerate(input_data[1:]):
+        for j, char in enumerate(row):
+            if char == '^':
+                count_array[i + 1, j + 1] = 0
+            else:
+                count_array[i + 1, j + 1] += count_array[i, j + 1]
+                if row[j - 1] == '^':
+                    count_array[i + 1, j + 1] += count_array[i, j]
+                if row[j + 1] == '^':
+                    count_array[i + 1, j + 1] += count_array[i, j + 2]
+    print(count_array)
+    return(sum(count_array[-1]))
 
 if __name__ == "__main__":
     input_data = read_input()
