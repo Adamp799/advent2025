@@ -12,10 +12,10 @@ def read_input(path=DATA_PATH):
 
 def shortest_k_pairs(points, k=1000):
     tree = KDTree(points)
-    dists, idxs = tree.query(points, k=len(points)+1)
+    dists, idxs = tree.query(points, 10)
     pairs = []
     for i in range(len(points)):
-        for n in range(1, len(points)+1):  
+        for n in range(1, 10):  
             j = idxs[i][n]
             if i < j: pairs.append(((i, j), dists[i][n]))
     pairs.sort(key=lambda x: x[1])
