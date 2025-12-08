@@ -23,7 +23,7 @@ def distance_matrix(input):
     return distances
 
 def circuits(input):
-    n = 50
+    n = 1000
     matrix = distance_matrix(input)
     smallest_n = np.sort(matrix.ravel())[:n]
     chains = [[1001, 1002]]
@@ -42,7 +42,6 @@ def circuits(input):
         #search if min is within existing chain
         k = len(chains)
         count = 0
-        print(chains)
         temp_chains = chains
         for idx, chain in enumerate(chains):
             if x in chain:
@@ -59,11 +58,10 @@ def circuits(input):
     #return product of three larges chains
     chain_lengths = [len(chain) for chain in chains]
     first = max(chain_lengths)
-    chain_lengths = [i for i in chain lengths if i != first]
+    chain_lengths = [i for i in chain_lengths if i != first]
     second = max(chain_lengths)
-    
-    third = max(chain_lengths.remove(first).remove(second))
-    print(third)
+    chain_lengths = [i for i in chain_lengths if i != second]
+    third = max(chain_lengths)
 
     return first * second * third
             
