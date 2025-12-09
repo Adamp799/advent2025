@@ -19,16 +19,20 @@ def find_largest_rectangle(coords):
                 for j, coord in enumerate(coords): 
                     if coord in ([x1, y1], [x2, y2], [x1, y2], [x2, y1]): continue
                     x_coord = int(coord[0]); y_coord = int(coord[1])
-                    if ((min(int(x1), int(x2)) < x_coord < max(int(x1), int(x2)) and
+        
+                    if (   (min(int(x1), int(x2)) < x_coord < max(int(x1), int(x2)) and
                             min(int(y1), int(y2)) < y_coord < max(int(y1), int(y2))) or 
-                            (x_coord == min(int(x1), int(x2)) and int(edge_coords[j+1][0]) > x_coord) or 
+
+                            (((x_coord == min(int(x1), int(x2)) and int(edge_coords[j+1][0]) > x_coord) or 
                             (x_coord == max(int(x1), int(x2)) and int(edge_coords[j+1][0]) < x_coord) or
-                            (y_coord == min(int(y1), int(y2)) and int(edge_coords[j+1][1]) > y_coord) or
-                            (y_coord == max(int(y1), int(y2)) and int(edge_coords[j+1][1]) < y_coord) or 
-                            ((x_coord < min(int(x1), int(x2)) and int(edge_coords[j+1][0]) > max(int(x1), int(x2))) and 
+                            (x_coord < min(int(x1), int(x2)) and int(edge_coords[j+1][0]) > max(int(x1), int(x2)))) and 
                             (y_coord >= min(int(y1), int(y2)) and y_coord <= max(int(y1), int(y2)))) or 
-                            ((y_coord < min(int(y1), int(y2)) and int(edge_coords[j+1][1]) > max(int(y1), int(y2))) and
-                            (x_coord >= min(int(x1), int(x2)) and x_coord <= max(int(x1), int(x2))))):
+
+                            (((y_coord == min(int(y1), int(y2)) and int(edge_coords[j+1][1]) > y_coord) or
+                            (y_coord == max(int(y1), int(y2)) and int(edge_coords[j+1][1]) < y_coord) or 
+                            (y_coord < min(int(y1), int(y2)) and int(edge_coords[j+1][1]) > max(int(y1), int(y2)))) and
+                            (x_coord >= min(int(x1), int(x2)) and x_coord <= max(int(x1), int(x2))))   ):
+
                         valid = False
                         break
                 if valid: max_area = new_area
