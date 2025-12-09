@@ -26,7 +26,7 @@ def circuits(input):
     n = 1000
     matrix = distance_matrix(input)
     smallest_n = np.sort(matrix.ravel())[:n]
-    chains = [[1001, 1002]]
+    chains = [set([1001, 1002])]
     # find min within array then update to float('inf')
     for k in range(n):
         mini = float('inf')
@@ -43,20 +43,35 @@ def circuits(input):
         k = len(chains)
         count = 0
         temp_chains = chains
+        t = 0
         for idx, chain in enumerate(chains):
-            if x in chain:
-                temp_chains[idx].append(y)
-                break
+            if x in chain and y in chain:
+                x3 = idx
+                t += 6
+            elif x in chain:
+                print(temp_chains[idx])
+                temp_chains[idx].add(y)
+                x2 = idx
+                t += 1
             elif y in chain:
-                temp_chains[idx].append(x)
-                break
+                temp_chains[idx].add(x)
+                x1 = idx
+                t += 1
+            if t == 2:
+                temp_chains.append(temp_chains[x1].union(temp_chains[x2]))
+                temp_chains.remove(temp_chains[x1])
+                temp_chains.remove(temp_chains[x2])
+
+
             count += 1
         chains = temp_chains
 
-        if count == k:
-            chains.append([x, y])
+        if count == k and t == 0:
+            chains.append(set([x, y]))
     #return product of three larges chains
+    print(chains)
     chain_lengths = [len(chain) for chain in chains]
+    print(chain_lengths)
     first = max(chain_lengths)
     chain_lengths = [i for i in chain_lengths if i != first]
     second = max(chain_lengths)
