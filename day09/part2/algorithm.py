@@ -1,5 +1,5 @@
 from pathlib import Path
-DATA_PATH = Path(__file__).parent / "data1.txt"
+DATA_PATH = Path(__file__).parent / "example.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -25,12 +25,14 @@ def find_largest_rectangle(coords):
 
                             (((x_coord == min(int(x1), int(x2)) and int(edge_coords[j+1][0]) > x_coord) or 
                             (x_coord == max(int(x1), int(x2)) and int(edge_coords[j+1][0]) < x_coord) or
-                            (x_coord < min(int(x1), int(x2)) and int(edge_coords[j+1][0]) > max(int(x1), int(x2)))) and 
+                            (x_coord < min(int(x1), int(x2)) and int(edge_coords[j+1][0]) > max(int(x1), int(x2))) or 
+                            (x_coord > max(int(x1), int(x2)) and int(edge_coords[j+1][0]) < min(int(x1), int(x2)))) and 
                             (y_coord > min(int(y1), int(y2)) and y_coord < max(int(y1), int(y2)))) or 
 
                             (((y_coord == min(int(y1), int(y2)) and int(edge_coords[j+1][1]) > y_coord) or
                             (y_coord == max(int(y1), int(y2)) and int(edge_coords[j+1][1]) < y_coord) or 
-                            (y_coord < min(int(y1), int(y2)) and int(edge_coords[j+1][1]) > max(int(y1), int(y2)))) and
+                            (y_coord < min(int(y1), int(y2)) and int(edge_coords[j+1][1]) > max(int(y1), int(y2))) or 
+                            (y_coord > max(int(y1), int(y2)) and int(edge_coords[j+1][0]) < min(int(y1), int(y2)))) and 
                             (x_coord > min(int(x1), int(x2)) and x_coord < max(int(x1), int(x2))))   ):
 
                         valid = False
