@@ -10,13 +10,14 @@ def read_input(path=DATA_PATH):
 
 def find_largest_rectangle(coords): 
     max_area = float('-inf')
-    edge_coords = [coord for coord in coords + coords[0]] 
+    edge_coords = [coord for coord in coords + [coords[0]]] 
     for i, [x1, y1] in enumerate(coords):
         for x2, y2 in coords[i+1:]:
             new_area = (abs(int(x2) - int(x1)) + 1) * (abs(int(y2) - int(y1)) + 1)
             if new_area > max_area: 
                 valid = True
                 for j, coord in enumerate(coords): 
+                    if coord in ([x1, y1], [x2, y2], [x1, y2], [x2, y1]): continue
                     x_coord = int(coord[0]); y_coord = int(coord[1])
                     if ((min(int(x1), int(x2)) < x_coord < max(int(x1), int(x2)) and
                             min(int(y1), int(y2)) < y_coord < max(int(y1), int(y2))) or 
