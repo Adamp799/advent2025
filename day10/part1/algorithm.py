@@ -1,4 +1,5 @@
 from pathlib import Path
+from itertools import product
 DATA_PATH = Path(__file__).parent / "example.txt"
 
 def read_input(path=DATA_PATH):
@@ -13,6 +14,8 @@ def find_button_combination(manual):
         light_diagram = machine[0]
         joltages = machine[-1] 
         button_wirings = [[int(x) for x in s.strip("()").split(",") if x.strip()] for s in machine[1:-1]]
+        print(list(product([0, 1], repeat=len(button_wirings))))
+
     return 0
             
 if __name__ == "__main__":
