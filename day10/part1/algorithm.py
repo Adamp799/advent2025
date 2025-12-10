@@ -17,13 +17,12 @@ def find_button_combination(manual):
         button_wirings = [[int(x) for x in s.strip("()").split(",") if x.strip()] for s in machine[1:-1]]
         permutations = list(product([0, 1], repeat=len(button_wirings)))
         min_presses = float('inf')
-        for i, perm in enumerate(permutations): 
+        for perm in permutations: 
             lights = [0] * len(light_diagram)
             for button_index, button_state in enumerate(perm):
                 wiring = button_wirings[button_index]
                 for light_index in wiring:
                     lights[light_index] ^= button_state
-            print(lights, light_diagram)
             if lights == light_diagram:
                 presses = sum(perm)
                 if presses < min_presses: min_presses = presses
