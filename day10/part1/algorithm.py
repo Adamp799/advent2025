@@ -1,6 +1,6 @@
 from pathlib import Path
 from itertools import product
-DATA_PATH = Path(__file__).parent / "example.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -10,13 +10,25 @@ def read_input(path=DATA_PATH):
         return []
 
 def find_button_combination(manual): 
+    min_presses_list = []
     for machine in manual:
-        light_diagram = machine[0]
         joltages = machine[-1] 
+        light_diagram = [0 if c == "." else 1 for c in machine[0].strip("[]")]
         button_wirings = [[int(x) for x in s.strip("()").split(",") if x.strip()] for s in machine[1:-1]]
-        print(list(product([0, 1], repeat=len(button_wirings))))
-
-    return 0
+        permutations = list(product([0, 1], repeat=len(button_wirings)))
+        min_presses = float('inf')
+        for i, perm in enumerate(permutations): 
+            lights = [0] * len(light_diagram)
+            for button_index, button_state in enumerate(perm):
+                wiring = button_wirings[button_index]
+                for light_index in wiring:
+                    lights[light_index] ^= button_state
+            print(lights, light_diagram)
+            if lights == light_diagram:
+                presses = sum(perm)
+                if presses < min_presses: min_presses = presses
+        if min_presses != float('inf'): min_presses_list.append(min_presses)
+    return sum(min_presses_list)
             
 if __name__ == "__main__":
     input_data = read_input()
