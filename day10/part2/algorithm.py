@@ -1,5 +1,6 @@
 from pathlib import Path
-from scipy.optimize import linprog
+from scipy.optimize import milp, LinearConstraint, Bounds
+import numpy as np
 DATA_PATH = Path(__file__).parent / "example.txt"
 
 def read_input(path=DATA_PATH):
@@ -18,7 +19,13 @@ def find_button_combination(manual):
         for i in range(len(button_wirings)):
             for j in range(len(joltages)):
                 A[j][i] = 1 if j in button_wirings[i] else 0
-        res = linprog([1]*len(button_wirings), A_eq=A, b_eq=joltages, method='highs')
+        c = np.ones(len(button_wirings)) 
+        A_eq = np.array(A)
+        b_eq = np.array(joltages)
+        constraints = LinearConstraint(A_eq, b_eq, b_eq)
+        integrality = np.ones(len(button_wirings))  
+        bounds = Bounds(lb=0)  
+        res = milp(c=c, constraints=constraints, integrality=integrality, bounds=bounds)
         print("Optimal value:", res.fun)
         print("Variables [a,b,c,d,e,f]:", res.x)
         min_presses_list.append(int(res.fun))
