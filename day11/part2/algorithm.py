@@ -20,9 +20,7 @@ def calculate_paths(input_data):
     return (svr_to_dac * dac_to_fft * fft_to_out + svr_to_fft * fft_to_dac * dac_to_out)
 
 def depth_first_search(node_dict, current_node, target, visited):
-    if current_node == target:
-        if 'dac' in visited and 'fft' in visited: return 1
-        else: return 0
+    if current_node == target: return 1
     if current_node in visited: return 0
     visited.add(current_node)
     total_paths = 0
