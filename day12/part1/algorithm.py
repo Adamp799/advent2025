@@ -25,8 +25,10 @@ def validate_regions(input_data):
         required_area = 0
         for i, c in enumerate(present_counts): 
             required_area += present_sizes[i] * c
-        if required_area <= area and len(presents) <= three_by_three_area: 
-            valid_regions += 1
+        
+        if required_area > area: continue
+        if len(presents) <= three_by_three_area: valid_regions += 1; continue
+        
     return valid_regions
    
 if __name__ == "__main__":
