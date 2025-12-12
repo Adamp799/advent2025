@@ -19,16 +19,6 @@ def calculate_paths(input_data):
     fft_to_out = count_paths(graph, "fft", "out")
     return (svr_to_dac * dac_to_fft * fft_to_out + svr_to_fft * fft_to_dac * dac_to_out)
 
-def depth_first_search(node_dict, current_node, target, visited):
-    if current_node == target: return 1
-    if current_node in visited: return 0
-    visited.add(current_node)
-    total_paths = 0
-    for neighbor in node_dict.get(current_node, []):
-        total_paths += depth_first_search(node_dict, neighbor, target, visited)
-    visited.remove(current_node)
-    return total_paths
-
 def count_paths(graph, start, end, forbid=None):
     if forbid is None: forbid = set()
     forbid = frozenset(forbid)
