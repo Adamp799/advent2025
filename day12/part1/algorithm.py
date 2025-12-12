@@ -1,6 +1,6 @@
 from pathlib import Path
 from itertools import groupby
-DATA_PATH = Path(__file__).parent / "example.txt"
+DATA_PATH = Path(__file__).parent / "data1.txt"
 
 def read_input(path=DATA_PATH):
     try:
@@ -11,7 +11,7 @@ def read_input(path=DATA_PATH):
         return []
 
 def validate_regions(input_data):
-    valid_regions = 0
+    valid_regions = 0; filtered = 0
     regions = input_data[-1]; presents = input_data[:-1]; present_sizes = []
     for i in range(0, len(presents)):
         present_sizes.append(sum(line.count("#") for line in presents[i][1:]))
@@ -26,10 +26,11 @@ def validate_regions(input_data):
         for i, c in enumerate(present_counts): 
             required_area += present_sizes[i] * c
         
-        if required_area > area: continue
+        if required_area > area: filtered += 1; continue
         if len(presents) <= three_by_three_area: valid_regions += 1; continue
-        
-    return valid_regions
+    
+    if valid_regions + filtered >= len(regions): print("All regions processed.")
+    return valid_regions 
    
 if __name__ == "__main__":
     input_data = read_input()
