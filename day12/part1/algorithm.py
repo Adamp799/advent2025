@@ -11,14 +11,23 @@ def read_input(path=DATA_PATH):
         return []
 
 def validate_regions(input_data):
-    regions = input_data[-1]
-    presents = input_data[:-1]
+    valid_regions = 0
+    regions = input_data[-1]; presents = input_data[:-1]; present_sizes = []
+    for i in range(0, len(presents)):
+        present_sizes.append(sum(line.count("#") for line in presents[i][1:]))
+    
     for region in regions: 
         components = region.split(" ")
         [x, y] = map(int, components[0].strip(':').split("x"))
-        present_indices = [int(i) for i in components[1:]]
-        for i in present_indices: 
-            print(presents[i])
+        area = x * y; three_by_three_area = (x // 3) * (y // 3)
+        present_counts = [int(i) for i in components[1:]]
+
+        required_area = 0
+        for i, c in enumerate(present_counts): 
+            required_area += present_sizes[i] * c
+        if required_area <= area and len(presents) <= three_by_three_area: 
+            valid_regions += 1
+    return valid_regions
    
 if __name__ == "__main__":
     input_data = read_input()
